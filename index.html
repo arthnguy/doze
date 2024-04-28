@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Doze</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@12.3.2/lib/browser/math.min.js"></script>
+    <link rel="stylesheet" href="./style.css"/>
+  </head>
+  <body>
+    <div class="flex flex-col h-lvh w-lvw">
+      <div class="bg-black flex flex-1 justify-between items-center items-end flex-row">
+        <h1 class="text-3xl text-white">DOZE</h1>
+        <p class="text-white">v1.0</p>
+      </div>
+
+      <div class="fixed left-4 top-10 p-1 border-2 rounded-xl border-neutral-200 bg-neutral-100 w-44" id="menu">
+        <div>
+          <p>Transformations:</p>
+
+          <div class="flex justify-between m-1">
+            <label class="whitespace-nowrap">x =</label>
+            <input class="transformation border-black border-b-2 bg-neutral-100 w-32" id="x-transformation" type="text" />
+          </div>
+
+          <div class="flex justify-between m-1">
+            <label class="whitespace-nowrap">y =</label>
+            <input class="transformation border-black border-b-2 bg-neutral-100 w-32" id="y-transformation" type="text" />
+          </div>
+        </div>
+  
+        <div>
+          <select class="inline bg-neutral-100" id="coordinate-type">
+            <option value="xy">xy</option>
+            <option value="uv">uv</option>
+          </select>
+
+          <p class="inline">function:</p>
+          <input class="block border-black border-b-2 mt-1 bg-neutral-100 w-full" id="equation" type="text" />
+        </div>
+      </div>
+
+      <h1 class="hidden text-5xl absolute top-10 left-1/2 -translate-x-1/2" id="notice">Graphing...</h1>
+
+      <div class="flex flex-row">
+        <canvas class="border-r-2 border-black border-dashed" id="xy-graph"></canvas>
+        <canvas id="uv-graph"></canvas>
+      </div>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
