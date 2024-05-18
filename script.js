@@ -4,6 +4,8 @@ const yStart = -10.0;
 const yEnd = 10.0;
 const space = 0.1;
 
+const xyCanvas = $("#xy-graph")[0];
+const uvCanvas = $("#uv-graph")[0];
 const xyCtx = $("#xy-graph")[0].getContext("2d");
 const uvCtx = $("#uv-graph")[0].getContext("2d");
 
@@ -18,10 +20,18 @@ const coordType = $("#coordinate-type")[0];
 const equation = $("#equation")[0];
 
 const notice = $("#notice")[0];
+const helpBox = $("#help-box");
+const helpText = $("#help-text")[0];
 
 var xyVals = new Map();
 var uvVals = new Map();
 var uvToXY = new Map();
+
+const helpBoxes = [introHelp, transformationHelp, equationHelp, graphHelp];
+var currHelpIndex = 0;
+
+var oldXYCanvas;
+var oldUVCanvas;
 
 const valueCalculator = new Worker("valueCalculator.js");
 const transformationCalculator = new Worker("transformationCalculator.js");
@@ -270,6 +280,46 @@ $(".transformation").on("focusout", () => {
     } catch {
         console.log("incomplete transformations definitions");
     }
+});
+
+$("#help").on("click", () => {
+    currHelpIndex = 0;
+
+    helpBox[0].style.display = "block";
+    for (let i = 0; i < helpBoxes[0].posCSS.length; ++i) {
+        helpBox.css(helpBoxes[0].posCSS[i][0], helpBoxes[0].posCSS[i][1]);
+    }
+    helpText.innerHTML = helpBoxes[0].help;
+
+    ++currHelpIndex;
+});
+
+$("#next-help").on("click", () => {
+    if (currHelpIndex == helpBoxes.length) {
+        currHelpIndex = 0;
+        helpBox[0].style.display = "none";
+    } else {
+        for (let i = 0; i < helpBoxes[currHelpIndex].posCSS.length; ++i) {
+            helpBox.css(helpBoxes[currHelpIndex].posCSS[i][0], helpBoxes[currHelpIndex].posCSS[i][1]);
+        }
+        helpText.innerHTML = helpBoxes[currHelpIndex].help;
+
+        ++currHelpIndex;
+    }
+})
+
+$(window).on("focus", () => {
+    const xyImg = new Image();
+    const uvImg = new Image();
+    xyImg.src = oldXYCanvas;
+    uvImg.src = oldUVCanvas;
+    xyCtx.drawImage(xyImg, 0, 0);
+    uvCtx.drawImage(uvImg, 0, 0);
+});
+
+$(window).on("blur", () => {
+    oldXYCanvas = xyCanvas.toDataURL();
+    oldUVCanvas = uvCanvas.toDataURL();
 });
 
 valueCalculator.onmessage = msg => {
