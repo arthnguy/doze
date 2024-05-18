@@ -256,6 +256,9 @@ const drawGraphs = () => {
         drawFunction(uvCtx, "blue", uvVals);
         drawFunctionFromUV(xyCtx, "red", xyVals);
     }
+
+    oldXYCanvas = xyCanvas.toDataURL();
+    oldUVCanvas = uvCanvas.toDataURL();
 }
 
 $("#equation").on("keydown", e => {
@@ -315,11 +318,6 @@ $(window).on("focus", () => {
     uvImg.src = oldUVCanvas;
     xyCtx.drawImage(xyImg, 0, 0);
     uvCtx.drawImage(uvImg, 0, 0);
-});
-
-$(window).on("blur", () => {
-    oldXYCanvas = xyCanvas.toDataURL();
-    oldUVCanvas = uvCanvas.toDataURL();
 });
 
 valueCalculator.onmessage = msg => {
