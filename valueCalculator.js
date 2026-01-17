@@ -15,8 +15,8 @@ self.onmessage = (msg) => {
         const equation = msg.data.equation;
         const coordType = msg.data.coordType;
 
-        const xyVals = new Map();
-        const uvVals = new Map();
+        const xyVals = {};
+        const uvVals = {};
 
         getFirstVals(xyVals, uvVals, equation, coordType);
         getSecondVals(xyVals, uvVals, equation, xTransform, yTransform, coordType);
@@ -26,8 +26,9 @@ self.onmessage = (msg) => {
             uvVals: Object.entries(uvVals)
         });
     } catch (e) {
+        console.error("Value calculator error:", e);
         self.postMessage({
-            e: e
+            e: e.message || e.toString()
         });
     }
 }
@@ -52,17 +53,9 @@ const getFirstVals = (xyVals, uvVals, equation, coordType) => {
         }
 
         expr = math.compile(getExpr(equation.replace(/u/g, "x").replace(/v/g, "y")));
-        try {
-            for (let ix =  xStart; ix <= xEnd; ix = math.round(ix + space, 1)) {
-                for (let iy =  yStart; iy <= yEnd; iy = math.round(iy + space, 1)) {
-                    uvVals[[ix, iy].toString()] = math.round(expr.evaluate({x: ix, y: iy}), 5);
-                }
-            }
-        } catch {
-            for (let ix =  xStart; ix <=  xEnd; ix = math.round(ix + space, 1)) {
-                for (let iy =  yStart; iy <=  yEnd; iy = math.round(iy + space, 1)) {
-                    uvVals[[ix, iy].toString()] = math.round(expr.evaluate({x: ix, y: iy}), 5);
-                }
+        for (let ix = xStart; ix <= xEnd; ix = Math.round((ix + space) * 100) / 100) {
+            for (let iy = yStart; iy <= yEnd; iy = Math.round((iy + space) * 100) / 100) {
+                uvVals[[ix, iy].toString()] = math.round(expr.evaluate({x: ix, y: iy}), 5);
             }
         }
     } else {
@@ -71,17 +64,9 @@ const getFirstVals = (xyVals, uvVals, equation, coordType) => {
         }
 
         expr = math.compile(getExpr(equation));
-        try {
-            for (let ix =  xStart; ix <=  xEnd; ix = math.round(ix +  space, 1)) {
-                for (let iy =  yStart; iy <=  yEnd; iy = math.round(iy +  space, 1)) {
-                    xyVals[[ix, iy].toString()] = math.round(expr.evaluate({x: ix, y: iy}), 5);
-                }
-            }
-        } catch {
-            for (let ix =  xStart; ix <=  xEnd; ix = math.round(ix +  space, 1)) {
-                for (let iy =  yStart; iy <=  yEnd; iy = math.round(iy +  space, 1)) {
-                    xyVals[[ix, iy].toString()] = math.round(expr.evaluate({x: ix, y: iy}), 5);
-                }
+        for (let ix = xStart; ix <= xEnd; ix = Math.round((ix + space) * 100) / 100) {
+            for (let iy = yStart; iy <= yEnd; iy = Math.round((iy + space) * 100) / 100) {
+                xyVals[[ix, iy].toString()] = math.round(expr.evaluate({x: ix, y: iy}), 5);
             }
         }
     }
@@ -96,17 +81,9 @@ const getSecondVals = (xyVals, uvVals, equation, xTransform, yTransform, coordTy
         }
 
         expr = math.compile(getExpr(equation));
-        try {
-            for (let ix =  xStart; ix <=  xEnd; ix = math.round(ix +  space, 1)) {
-                for (let iy =  yStart; iy <=  yEnd; iy = math.round(iy +  space, 1)) {
-                    xyVals[[ix, iy].toString()] = math.round(expr.evaluate({u: ix, v: iy}), 5);
-                }
-            }
-        } catch {
-            for (let ix =  xStart; ix <=  xEnd; ix = math.round(ix +  space, 1)) {
-                for (let iy =  yStart; iy <=  yEnd; iy = math.round(iy +  space, 1)) {
-                    xyVals[[ix, iy].toString()] = math.round(expr.evaluate({u: ix, v: iy}), 5);
-                }
+        for (let ix = xStart; ix <= xEnd; ix = Math.round((ix + space) * 100) / 100) {
+            for (let iy = yStart; iy <= yEnd; iy = Math.round((iy + space) * 100) / 100) {
+                xyVals[[ix, iy].toString()] = math.round(expr.evaluate({u: ix, v: iy}), 5);
             }
         }
     } else {
@@ -120,17 +97,9 @@ const getSecondVals = (xyVals, uvVals, equation, xTransform, yTransform, coordTy
                 .replace(/(?<![a-zA-Z])y(?![a-zA-Z])/g, yTransform)
             )
         );
-        try {
-            for (let ix =  xStart; ix <=  xEnd; ix = math.round(ix +  space, 1)) {
-                for (let iy =  yStart; iy <=  yEnd; iy = math.round(iy +  space, 1)) {
-                    uvVals[[ix, iy].toString()] = math.round(expr.evaluate({u: ix, v: iy}), 5);
-                }
-            }
-        } catch {
-            for (let ix =  xStart; ix <=  xEnd; ix = math.round(ix +  space, 1)) {
-                for (let iy =  yStart; iy <=  yEnd; iy = math.round(iy +  space, 1)) {
-                    uvVals[[ix, iy].toString()] = math.round(expr.evaluate({u: ix, v: iy}), 5);
-                }
+        for (let ix = xStart; ix <= xEnd; ix = Math.round((ix + space) * 100) / 100) {
+            for (let iy = yStart; iy <= yEnd; iy = Math.round((iy + space) * 100) / 100) {
+                uvVals[[ix, iy].toString()] = math.round(expr.evaluate({u: ix, v: iy}), 5);
             }
         }
     }

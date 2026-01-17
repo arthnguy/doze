@@ -1,20 +1,74 @@
 const introHelp = {
-    help: "This is a (currently) limited graphing calculator that explores coordinate system transformations. Right now, it's mainly useful for curve analysis, though asymptotes and axes will be improved later.",
-    posCSS: [["left", "0"], ["right", "0"], ["margin", "auto"], ["margin-top", "2rem"]],
+    help: `
+        <div class="space-y-3">
+            <h3 class="font-bold text-lg text-purple-700">Welcome to DOZE!</h3>
+            <p class="text-gray-700">A live graphing calculator for exploring coordinate transformations.</p>
+            <div class="bg-purple-50 p-3 rounded-lg">
+                <p class="text-sm text-gray-600"><strong>Tip:</strong> Graphs update instantly as you type!</p>
+            </div>
+        </div>
+    `,
+    posCSS: [["left", "50%"], ["top", "30%"], ["transform", "translate(-50%, 0)"], ["margin", "0"]],
+    expandMenu: false,
+    attachTo: null,
 };
 
 const transformationHelp = {
-    help: "You can put in the transformations from u and v to x and y here.",
-    posCSS: [["margin-top", "0.25rem"], ["margin-left", "12rem"]],
+    help: `
+        <div class="space-y-3">
+            <h3 class="font-bold text-lg text-purple-700">Transformations</h3>
+            <p class="text-gray-700">Define how <span class="font-mono bg-gray-100 px-1 rounded">u,v</span> coordinates map to <span class="font-mono bg-gray-100 px-1 rounded">x,y</span>.</p>
+            <div class="bg-blue-50 p-3 rounded-lg space-y-2">
+                <p class="text-sm font-semibold text-gray-700">Examples:</p>
+                <p class="text-sm text-gray-600">x = 2*u, y = v (stretch)</p>
+                <p class="text-sm text-gray-600">x = u*cos(1), y = u*sin(1) (rotate)</p>
+            </div>
+        </div>
+    `,
+    posCSS: [],
+    expandMenu: true,
+    attachTo: "#x-transformation",
 };
 
 const equationHelp = {
-    help: "The function you want to graph will be here. You can choose to graph it in the xy coordinate system or the uv coordinate system and see how they look in the other's coordinate system. As the parsing is powered by math.js, supported functions can be found in its documentation.",
-    posCSS: [["margin-top", "10.5rem"], ["margin-left", "0.25rem"]],
+    help: `
+        <div class="space-y-3">
+            <h3 class="font-bold text-lg text-purple-700">Equation Input</h3>
+            <p class="text-gray-700">Enter any implicit equation. Choose <span class="font-mono bg-gray-100 px-1 rounded">xy</span> or <span class="font-mono bg-gray-100 px-1 rounded">uv</span> mode.</p>
+            <div class="bg-green-50 p-3 rounded-lg space-y-2">
+                <p class="text-sm font-semibold text-gray-700">Try these:</p>
+                <p class="text-sm text-gray-600">x^2 + y^2 = 25 (circle)</p>
+                <p class="text-sm text-gray-600">sin(x) + cos(y) = 0 (waves)</p>
+                <p class="text-sm text-gray-600">x^2 - y^2 = 1 (hyperbola)</p>
+            </div>
+        </div>
+    `,
+    posCSS: [],
+    expandMenu: true,
+    attachTo: "#equation",
 };
 
 const graphHelp = {
-    help: "The xy graph is on the left and the uv graph is on the right",
-    posCSS: [["left", "0"], ["right", "0"], ["margin", "auto"], ["margin-top", "0.25rem"]],
+    help: `
+        <div class="space-y-3">
+            <h3 class="font-bold text-lg text-purple-700">The Graphs</h3>
+            <p class="text-gray-700">See your equation in both coordinate systems simultaneously.</p>
+            <div class="grid grid-cols-2 gap-2 mt-2">
+                <div class="bg-red-50 p-2 rounded-lg">
+                    <p class="text-sm font-semibold text-red-700">Left: xy-plane</p>
+                    <p class="text-xs text-gray-600">Standard coordinates</p>
+                </div>
+                <div class="bg-blue-50 p-2 rounded-lg">
+                    <p class="text-sm font-semibold text-blue-700">Right: uv-plane</p>
+                    <p class="text-xs text-gray-600">Transformed view</p>
+                </div>
+            </div>
+            <div class="bg-purple-50 p-3 rounded-lg mt-3">
+                <p class="text-sm text-gray-600"><strong>Pro tip:</strong> Drag the controls panel anywhere you like!</p>
+            </div>
+        </div>
+    `,
+    posCSS: [["left", "50%"], ["top", "30%"], ["transform", "translate(-50%, 0)"], ["margin", "0"]],
+    expandMenu: false,
+    attachTo: null,
 };
-

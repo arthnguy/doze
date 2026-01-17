@@ -9,21 +9,28 @@ const yEnd = 10.0;
 const space = 0.1;
 
 self.onmessage = (msg) => {
-    const xTransform = math.compile(msg.data.xTransform);
-    const yTransform = math.compile(msg.data.yTransform);
+    try {
+        const xTransform = math.compile(msg.data.xTransform);
+        const yTransform = math.compile(msg.data.yTransform);
 
-    const uvToXY = new Map();
+        const uvToXY = {};
 
-    for (let ix = xStart; ix <= xEnd; ix = math.round(ix + space, 1)) {
-        for (let iy = yStart; iy <= yEnd; iy = math.round(iy + space, 1)) {
-            uvToXY[[ix, iy].toString()] = {
-                x: xTransform.evaluate({u: ix, v: iy}), 
-                y: yTransform.evaluate({u: ix, v: iy})
-            };
+        for (let ix = xStart; ix <= xEnd; ix = Math.round((ix + space) * 100) / 100) {
+            for (let iy = yStart; iy <= yEnd; iy = Math.round((iy + space) * 100) / 100) {
+                uvToXY[[ix, iy].toString()] = {
+                    x: xTransform.evaluate({u: ix, v: iy}), 
+                    y: yTransform.evaluate({u: ix, v: iy})
+                };
+            }
         }
-    }
 
-    self.postMessage({
-        uvToXY: Object.entries(uvToXY)
-    });
+        self.postMessage({
+            uvToXY: Object.entries(uvToXY)
+        });
+    } catch (e) {
+        console.error("Transformation calculator error:", e);
+        self.postMessage({
+            error: e.message
+        });
+    }
 }
